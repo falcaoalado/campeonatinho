@@ -1,0 +1,68 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<link rel="stylesheet" type="text/css" href="../css/responsive.css" />
+</h:head>
+
+<h:body onload="#{usuarioMB.inicializaPagina()}">
+
+	<ui:include src="/WEB-INF/page.xhtml" />
+	<div class="ui-g">
+		<div class="ui-g-4" />
+		<div class="ui-g-4">
+			<p:panel rendered="#{usuarioMB.usuarioLogado.perfil eq 'USER'}"
+				header="Minhas ligas">
+				<p:dataTable rendered="#{usuarioMB.ligas.size() gt 0}"
+					value="#{usuarioMB.ligas}" var="liga">
+					<p:column headerText="Logo">
+						<p:graphicImage width="150px" height="150px"
+							value="../imagens/#{liga.logo}" />
+					</p:column>
+
+					<p:column headerText="Data de criação">
+						<h:outputText value="#{liga.criacaoLiga}" >
+							<f:convertDateTime pattern="dd/MM/YYYY"/>
+						</h:outputText>
+					</p:column>
+
+					<p:column headerText="Nome da liga">
+						<p:link href="/campeonatinho/gerenciarliga.jsf?idliga=#{liga.id}"
+							value="#{liga.nome}" />
+					</p:column>
+				</p:dataTable>
+				<p:column rendered="#{usuarioMB.ligas.size() eq 0}">
+					<h:outputText
+						value="Você não possui ligas ainda! Que tal criar uma agora?" />
+				</p:column>
+				<br />
+				<p:column rendered="#{usuarioMB.ligas.size() eq 0}">
+					<p:commandLink action="criarliga?faces-redirect=true"
+						value="Clique aqui para criar." />
+				</p:column>
+			</p:panel>
+
+			<p:panel rendered="#{usuarioMB.usuarioLogado.perfil eq 'ADM'}"
+				header="Relatórios - Resumo">
+				<p:panelGrid style="margin: 0 auto;" columns="2">
+						
+						<p:outputLabel value="Quantidade de usuários cadastrados: " />
+						<p:outputLabel value="#{usuarioMB.todosUsuarios.size()}" />
+						
+						<p:outputLabel value="Quantidade de ligas cadastradas: " />
+						<p:outputLabel value="#{usuarioMB.todasLigas.size()}" />
+						
+						<p:outputLabel value="Quantidade de partidas geradas: " />
+						<p:outputLabel value="#{usuarioMB.todasPartidas.size()}" />
+				</p:panelGrid>
+			</p:panel>
+		</div>
+	</div>
+</h:body>
+</html>

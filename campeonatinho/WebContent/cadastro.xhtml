@@ -1,0 +1,52 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<link rel="stylesheet" type="text/css" href="css/responsive.css" />
+</h:head>
+
+<h:body>
+	<p:dialog widgetVar="statusDialog" modal="true" draggable="false"
+		closable="false" resizable="false" showHeader="false">
+		<img src="https://i.pinimg.com/originals/3f/2c/97/3f2c979b214d06e9caab8ba8326864f3.gif"
+			height="100px" width="100px"/>
+	</p:dialog>
+	<!-- 	<ui:include src="/index.xhtml" /> -->
+	<ui:include src="WEB-INF/page.xhtml" />
+	<div class="ui-g">
+		<div class="ui-g-4" />
+		<div class="ui-g-4">
+			<p:panel header="Login">
+				<h:form id="formCadastro">
+					<p:messages autoUpdate="true" closable="true" />
+					<h:panelGrid columns="2">
+						<h:outputText value="E-mail" />
+						<p:inputText required="true" value="#{cadastroMB.usuario.email}" />
+
+						<h:outputText value="Senha" />
+						<p:password required="true" id="senha1" match="senha2"
+							value="#{cadastroMB.usuario.senha}"
+							validatorMessage="As senhas estão incorretas." />
+
+						<h:outputText value="Repita a sua senha" />
+						<p:password required="true" id="senha2" />
+
+						<div align="center">
+							<p:commandButton value="Cadastrar"
+								onstart="PF('statusDialog').show()"
+								oncomplete="PF('statusDialog').hide()"
+								action="#{cadastroMB.validacaoCadastro}" />
+						</div>
+					</h:panelGrid>
+				</h:form>
+			</p:panel>
+		</div>
+	</div>
+</h:body>
+</html>

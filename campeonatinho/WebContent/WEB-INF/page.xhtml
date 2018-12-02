@@ -1,0 +1,77 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<link rel="stylesheet" type="text/css" href="/css/responsive.css" />
+	<link rel="stylesheet"
+		href="https://use.fontawesome.com/releases/v5.5.0/css/all.css"
+		integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU"
+		crossorigin="anonymous" />
+</h:head>
+
+<h:body
+	style="background: url('/campeonatinho/imagens/background.jpg') repeat !important;">
+
+	<div>
+		<h:form>
+			<p:menubar>
+				<p:menuitem rendered="#{usuarioMB.usuarioLogado eq null}"
+					value=" Home" url="/index.jsf" icon="fa fa-home" />
+				<p:menuitem rendered="#{usuarioMB.usuarioLogado ne null}"
+					value=" Home" url="/campeonatinho/inicio.jsf" icon="fa fa-home" />
+				<p:menuitem rendered="#{usuarioMB.usuarioLogado eq null}"
+					value="Cadastrar" url="/cadastro.jsf" icon="fa fa-user-plus" />
+				<p:menuitem rendered="#{usuarioMB.usuarioLogado eq null}"
+					value="Login" url="/login.jsf" icon="fa fa-male" />
+
+				<p:submenu rendered="#{usuarioMB.usuarioLogado ne null}"
+					label="Ligas">
+					<p:menuitem url="/campeonatinho/criarliga.jsf" value="Criar liga" />
+					<p:menuitem url="/campeonatinho/minhasligas.jsf"
+						value="Minhas ligas" />
+				</p:submenu>
+
+				<p:submenu label="Perfil"
+					rendered="#{usuarioMB.usuarioLogado ne null}">
+					<p:menuitem url="/campeonatinho/alterarsenha.jsf"
+						value="Alterar senha" />
+				</p:submenu>
+
+				<p:submenu
+					rendered="#{usuarioMB.usuarioLogado ne null and usuarioMB.usuarioLogado.perfil eq 'ADM'}"
+					label="Administrativo">
+					<p:submenu label="Gerenciar ligas">
+						<p:menuitem value="Ligas via REST"
+							url="/campeonatinho/administracao/rest/liga/ligas" />
+					</p:submenu>
+					<p:submenu label="Gerenciar usuários">
+						<p:menuitem value="Relatórios de usuários"
+							url="/campeonatinho/administracao/relatoriousuarios.jsf" />
+						<p:menuitem value="Usuários via REST"
+							url="/campeonatinho/administracao/rest/usuario/usuarios" />
+					</p:submenu>
+				</p:submenu>
+
+				<p:menuitem style="background-color: red;"
+					rendered="#{usuarioMB.usuarioLogado ne null}" value="Deslogar"
+					action="#{usuarioMB.deslogar}" />
+				<p:menuitem
+					rendered="#{usuarioMB.usuarioLogado ne null and usuarioMB.usuarioLogado.perfil eq 'USER'}"
+					value="Bem-vindo, usuário #{usuarioMB.usuarioLogado.email}">
+				</p:menuitem>
+				<p:menuitem
+					rendered="#{usuarioMB.usuarioLogado ne null and usuarioMB.usuarioLogado.perfil eq 'ADM'}"
+					value="Bem-vindo, administrador #{usuarioMB.usuarioLogado.email}">
+				</p:menuitem>
+			</p:menubar>
+		</h:form>
+	</div>
+
+</h:body>
+</html>

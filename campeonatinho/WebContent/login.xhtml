@@ -1,0 +1,41 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<link rel="stylesheet" type="text/css" href="css/responsive.css" />
+</h:head>
+
+<h:body>
+	<f:metadata>
+		<f:event type="preRenderView" listener="#{usuarioMB.verificaError}" />
+	</f:metadata>
+	
+	<ui:include src="WEB-INF/page.xhtml" />
+	<div class="ui-g">
+		<div class="ui-g-4" />
+		<div class="ui-g-3">
+			<p:panel header="Login">
+				<p:messages autoUpdate="true" closable="true" for="form1"/>
+				<h:form id="form1">
+					<h:panelGrid columns="2">
+						<h:outputText value="E-mail" />
+						<p:inputText value="#{usuarioMB.usuario.email}" />
+
+						<h:outputText value="Senha" />
+						<p:password value="#{usuarioMB.usuario.senha}" />
+
+						<p:commandButton value="Login" ajax="false" update=":form1"
+							action="#{usuarioMB.logar}" />
+					</h:panelGrid>
+				</h:form>
+			</p:panel>
+		</div>
+	</div>
+</h:body>
+</html>

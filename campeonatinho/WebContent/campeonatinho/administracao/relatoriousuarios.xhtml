@@ -1,0 +1,54 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<link rel="stylesheet" type="text/css" href="../../css/responsive.css" />
+</h:head>
+
+<h:body>
+
+	<ui:include src="/WEB-INF/page.xhtml" />
+	<div class="ui-g">
+		<div class="ui-g-3" />
+		<div class="ui-g-5">
+			<p:panel header="Usuários">
+			<p:messages closable="true" autoUpdate="true"/>
+			<h:form id="formTodosUsuarios">
+				<p:dataTable value="#{usuarioMB.todosUsuarios}" var="usuario">
+					
+					<p:column width="15px;" headerText="ID">
+						<h:outputText value="#{usuario.id}"/>
+					</p:column>
+					
+					<p:column headerText="E-mail">
+						<h:outputText value="#{usuario.email}"/>
+					</p:column>
+					
+					<p:column width="60px;" style="text-align: center;" headerText="Perfil">
+						<h:outputText value="#{usuario.perfil}"/>
+					</p:column>
+					
+					<p:column width="50px;" style="text-align: center;" headerText="Ativo?">
+						<h:outputText value="#{usuario.ativo}"/>
+					</p:column>
+					
+					<p:column headerText="Ações">
+						<p:splitButton action="#{usuarioMB.mudarPerfil(usuario)}" value="Alterar perfil" update=":formTodosUsuarios">
+							<p:menuitem action="#{usuarioMB.ativarUsuario(usuario)}" style="background: lightgreen !important;" icon="fa fa-check" value="Ativar usuário" update=":formTodosUsuarios"/>
+							<p:menuitem action="#{usuarioMB.desativarUsuario(usuario)}" style="background: #eb2f06 !important;" icon="fa fa-times" value="Desativar usuário" update=":formTodosUsuarios"/>
+						</p:splitButton>
+					</p:column>
+					
+				</p:dataTable>
+				</h:form>
+			</p:panel>
+		</div>
+	</div>
+</h:body>
+</html>

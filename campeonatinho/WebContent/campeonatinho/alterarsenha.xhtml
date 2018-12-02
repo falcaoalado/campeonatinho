@@ -1,0 +1,52 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<link rel="stylesheet" type="text/css" href="../css/responsive.css" />
+</h:head>
+
+<h:body onload="#{usuarioMB.inicializaPagina()}">
+
+	<ui:include src="/WEB-INF/page.xhtml" />
+	<div class="ui-g">
+		<div class="ui-g-4" />
+		<div class="ui-g-3">
+			<p:panel header="Alterar senha">
+				<h:form id="formAlterarSenha">
+					<p:messages  autoUpdate="true"/>
+					<p:panelGrid columns="2">
+						<p:column>
+							<h:outputText value="E-mail"/>
+						</p:column>
+						<p:column>
+							<p:inputText disabled="true" value="#{usuarioMB.usuarioLogado.email}"/>
+						</p:column>
+						
+						<p:column>
+							<h:outputText value="Senha"/>
+						</p:column>
+						<p:column>
+							<p:password match="repitasenha" validatorMessage="Senhas não batem" value="#{usuarioMB.alterarSenha}"/>
+						</p:column>
+
+						<p:column>
+							<h:outputText value="Repita a senha"/>
+						</p:column>						
+						<p:column>
+							<p:password id="repitasenha" value="#{usuarioMB.alterarSenha}"/>
+						</p:column>
+						
+						<p:commandButton action="#{usuarioMB.alterarSenha}" value="Alterar senha"/>
+					</p:panelGrid>					
+				</h:form>
+			</p:panel>
+		</div>
+	</div>
+</h:body>
+</html>

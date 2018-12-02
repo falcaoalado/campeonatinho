@@ -1,0 +1,66 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<link rel="stylesheet" type="text/css" href="../css/responsive.css" />
+</h:head>
+
+<h:body onload="#{usuarioMB.inicializaPagina()}">
+	<p:dialog widgetVar="statusDialog" modal="true" draggable="false"
+		closable="false" resizable="false" showHeader="false">
+		<img
+			src="https://i.pinimg.com/originals/3f/2c/97/3f2c979b214d06e9caab8ba8326864f3.gif"
+			height="100px" width="100px" />
+	</p:dialog>
+	<ui:include src="/WEB-INF/page.xhtml" />
+	<div class="ui-g">
+		<div class="ui-g-4" />
+		<div class="ui-g-4">
+			<p:panel rendered="#{usuarioMB.usuarioLogado ne null}"
+				header="Minhas ligas">
+				<p:messages id="mensagemliga" autoUpdate="true" />
+				<p:dataTable rendered="#{usuarioMB.ligas.size() gt 0}"
+					value="#{usuarioMB.ligas}" var="liga">
+					<p:column headerText="Logo">
+						<p:graphicImage width="110px" height="150px"
+							value="../imagens/#{liga.logo}" />
+					</p:column>
+
+					<p:column headerText="Data de criação">
+						<h:outputText value="#{liga.criacaoLiga}" >
+							<f:convertDateTime pattern="dd/MM/YYYY"/>
+						</h:outputText>
+					</p:column>
+
+					<p:column headerText="Nome da liga">
+						<p:link href="/campeonatinho/gerenciarliga.jsf?idliga=#{liga.id}"
+							value="#{liga.nome}" />
+					</p:column>
+
+					<p:column headerText="Ação">
+						<p:commandButton value="Excluir liga" onstart="PF('statusDialog').show()"
+								oncomplete="PF('statusDialog').hide()"
+							action="#{ligaMB.excluirLiga(liga)}" />
+					</p:column>
+				</p:dataTable>
+
+				<p:column rendered="#{usuarioMB.ligas.size() eq 0}">
+					<h:outputText
+						value="Você não possui ligas ainda! Que tal criar uma agora?" />
+				</p:column>
+				<br />
+				<p:column rendered="#{usuarioMB.ligas.size() eq 0}">
+					<p:commandLink action="criarliga?faces-redirect=true"
+						value="Clique aqui para criar." />
+				</p:column>
+			</p:panel>
+		</div>
+	</div>
+</h:body>
+</html>

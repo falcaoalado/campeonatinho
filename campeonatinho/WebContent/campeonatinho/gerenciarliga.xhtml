@@ -1,0 +1,223 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<link rel="stylesheet" type="text/css" href="../css/responsive.css" />
+</h:head>
+
+<h:body>
+
+	<ui:include src="/WEB-INF/page.xhtml" />
+	<div class="ui-g" style="text-align: center">
+		<div class="ui-g-4">
+			<p:panel header="Informações da liga">
+				<p:panelGrid style="margin: 0 auto" columns="2">
+
+					<f:facet name="header">
+						<p:graphicImage width="150px" height="150px"
+							value="../imagens/#{gerenciadorMB.liga.logo}" />
+					</f:facet>
+
+					<h:outputText value="Nome da liga:" />
+					<h:outputText value="#{gerenciadorMB.liga.nome}" />
+
+					<h:outputText value="Qt. de times:" />
+					<p:outputLabel value="#{gerenciadorMB.times.size()}" />
+				</p:panelGrid>
+
+			</p:panel>
+
+			<p:panel header="Times participantes">
+				<p:dataTable value="#{gerenciadorMB.times}" var="time">
+					<p:column>
+						<h:outputText value="#{time.nome}" />
+					</p:column>
+				</p:dataTable>
+			</p:panel>
+		</div>
+
+		<div class="ui-g-4">
+			<p:panel rendered="#{gerenciadorMB.partidas.size() gt 0}"
+				header="Partidas">
+				<h:form id="formPartida">
+					<p:dataTable paginator="true" paginatorPosition="bottom" rows="6"
+						value="#{gerenciadorMB.partidas}" var="partida">
+						<p:column width="10px" rendered="#{partida.efetuada eq 0}">
+							<h:outputText value="#{partida.casa.nome}" />
+						</p:column>
+						<p:column rendered="#{partida.efetuada eq 0}">
+							<p:inputText size="1" value="#{partida.golsTimeCasa}" />
+						</p:column>
+						<p:column width="10px;" rendered="#{partida.efetuada eq 0}">
+							<h:outputText value="x" />
+						</p:column>
+						<p:column rendered="#{partida.efetuada eq 0}">
+							<p:inputText size="1" value="#{partida.golsTimeVisitante}" />
+						</p:column>
+						<p:column rendered="#{partida.efetuada eq 0}">
+							<h:outputText style="text-align: right"
+								value="#{partida.visitante.nome}" />
+						</p:column>
+					</p:dataTable>
+					<br />
+					<p:messages showDetail="false" autoUpdate="true" />
+					<p:commandButton ajax="true"
+						update=":formPartida, :tabela, :formPartidaEfetuada"
+						value="Atualizar todos os resultados"
+						action="#{gerenciadorMB.atualizarPartidas}" />
+				</h:form>
+			</p:panel>
+			<p:panel rendered="#{gerenciadorMB.partidas.size() eq 0}"
+				header="Partidas">
+				<p:panelGrid style="margin: 0 auto" columns="1">
+
+					<f:facet name="header">
+						<p:graphicImage width="100%" height="300px"
+							value="../imagens/campeao.jpg" />
+					</f:facet>
+
+					<p:outputLabel style="font-weight: bold;"
+						value="Parabéns ao #{gerenciadorMB.campeao.nome} por ser campeão da liga #{gerenciadorMB.liga.nome}!" />
+				</p:panelGrid>
+			</p:panel>
+		</div>
+
+		<div class="ui-g-4">
+			<h:form id="tabela">
+				<p:dataTable rowIndexVar="posicao" value="#{gerenciadorMB.times}"
+					var="time">
+					<f:facet name="header">
+						<p:row>
+							<p:column>
+								<h:outputText value="#{gerenciadorMB.liga.nome}" />
+							</p:column>
+						</p:row>
+					</f:facet>
+					<p:column width="30px;" headerText="Pos.">
+						<h:outputText value="#{posicao+1}º" />
+					</p:column>
+
+					<p:column headerText="Time">
+						<h:outputText value="#{time.nome}" />
+					</p:column>
+
+					<p:column width="30px;" headerText="GP">
+						<h:outputText value="#{time.golsPro}" />
+					</p:column>
+
+					<p:column width="30px;" headerText="GC">
+						<h:outputText value="#{time.golsContra}" />
+					</p:column>
+
+					<p:column width="30px;" headerText="SG">
+						<h:outputText value="#{(time.golsPro)-(time.golsContra)}" />
+					</p:column>
+
+					<p:column width="50px;" headerText="Pts.">
+						<h:outputText value="#{time.pontos}" />
+					</p:column>
+				</p:dataTable>
+
+				<p:outputLabel style="background-color: black; color: white;">Critérios de desempate em caso de pontuação igual <br /> 1º Maior gols pro | 2º Menor gols contra | 3º Ordem alfabética</p:outputLabel>
+			</h:form>
+
+		</div>
+
+		<div style="text-align: center" class="ui-g">
+			<div class="ui-g-4" />
+			<div class="ui-g-4">
+				<h:form id="formPartidaEfetuada">
+					<p:dataTable
+						rendered="#{gerenciadorMB.partidasEfetuadas.size() gt 0}"
+						paginatorPosition="bottom" paginator="true" rows="6"
+						value="#{gerenciadorMB.partidasEfetuadas}" var="partida">
+						<f:facet name="header">
+							<p:row>
+								<p:column>
+									<h:outputText value="Partidas efetuadas" />
+								</p:column>
+							</p:row>
+						</f:facet>
+						<p:column rendered="#{partida.efetuada eq 1}">
+							<h:outputText value="#{partida.casa.nome}" />
+						</p:column>
+						<p:column rendered="#{partida.efetuada eq 1}">
+							<p:inputText disabled="true" size="1"
+								value="#{partida.golsTimeCasa}" />
+						</p:column>
+						<p:column width="5px;" headerText="x"
+							rendered="#{partida.efetuada eq 1}">
+							<h:outputText value=" x " />
+						</p:column>
+						<p:column rendered="#{partida.efetuada eq 1}">
+							<p:inputText disabled="true" size="1"
+								value="#{partida.golsTimeVisitante}" />
+						</p:column>
+						<p:column rendered="#{partida.efetuada eq 1}">
+							<h:outputText value="#{partida.visitante.nome}" />
+						</p:column>
+						<p:column width="1px;" rendered="#{partida.efetuada eq 1}">
+							<p:commandLink styleClass="fa fa-scissors"
+								update=":alterarPartida" oncomplete="PF('modalPartida').show()">
+								<f:setPropertyActionListener value="#{partida}"
+									target="#{gerenciadorMB.partidaSelecionada}" />
+							</p:commandLink>
+						</p:column>
+					</p:dataTable>
+					<br />
+				</h:form>
+			</div>
+		</div>
+
+		<p:dialog widgetVar="modalPartida"
+			header="Alterar resultado da partida" modal="true" resizable="false">
+			<p:panel>
+
+				<h:form id="alterarPartida">
+
+					<p:column>
+						<h:outputText
+							value="#{gerenciadorMB.partidaSelecionada.casa.nome} " />
+					</p:column>
+					<p:column>
+						<p:inputText size="1"
+							value="#{gerenciadorMB.partidaSelecionada.golsTimeCasa}" />
+					</p:column>
+					<p:column>
+						<h:outputText value="x" />
+					</p:column>
+					<p:column>
+						<p:inputText size="1"
+							value="#{gerenciadorMB.partidaSelecionada.golsTimeVisitante}" />
+					</p:column>
+					<p:column>
+						<h:outputText style="text-align: right"
+							value=" #{gerenciadorMB.partidaSelecionada.visitante.nome}" />
+					</p:column>
+
+					<p:commandButton
+						update=":formPartida, :tabela, :formPartidaEfetuada"
+						value="Editar!" action="#{gerenciadorMB.atualizarPartida}"
+						oncomplete="recarregarPage()" />
+				</h:form>
+								<p:column>
+					<p:outputLabel
+						value="#{gerenciadorMB.partidaSelecionada.ultimaAlteracao}" />
+				</p:column>
+			</p:panel>
+		</p:dialog>
+	</div>
+
+	<script>
+		function recarregarPage() {
+				location.reload();
+			}
+	</script>
+</h:body>
+</html>

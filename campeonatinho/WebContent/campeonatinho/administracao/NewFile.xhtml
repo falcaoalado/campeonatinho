@@ -1,0 +1,31 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<link rel="stylesheet" type="text/css" href="../css/responsive.css" />
+</h:head>
+
+<h:body onload="#{usuarioMB.inicializaPagina()}">
+	<ui:include src="/WEB-INF/page.xhtml" />
+	<div class="ui-g">
+	
+		<div class="ui-g-4" />
+		<div class="ui-g-4">
+			<p:panel rendered="#{usuarioMB.usuarioLogado ne null}"
+				header="Ligas produzidas via REST">
+					<p:dataTable value="#{restMB.ligas}" var="liga">
+						<p:column>
+							<h:outputText value="#{liga.nome}"/>
+						</p:column>
+					</p:dataTable>
+			</p:panel>
+		</div>
+	</div>
+</h:body>
+</html>

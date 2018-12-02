@@ -1,0 +1,64 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<link rel="stylesheet" type="text/css" href="../css/responsive.css" />
+</h:head>
+
+<h:body>
+
+	<ui:include src="/WEB-INF/page.xhtml" />
+	<div class="ui-g">
+		<div class="ui-g-4" />
+		<div class="ui-g-4">
+			<p:panel header="Criar liga">
+				<h:form id="crialiga" enctype="multipart/form-data">
+					<p:panelGrid columns="2">
+						<h:outputText value="Nome da liga *" />
+						<p:inputText required="true" value="#{ligaMB.liga.nome}"
+							placeholder="Insira o nome da liga" />
+
+						<h:outputText value="Logo" />
+						<p:fileUpload value="#{ligaMB.file}" label="Upload" mode="simple" />
+
+						<h:outputText for="quantidade"
+							value="Quantos times irão participar? *" />
+						<p:selectOneMenu
+							requiredMessage="Favor, selecione a quantidade de times."
+							required="true" id="quantidade"
+							value="#{ligaMB.quantidadeSelecionada}">
+							<f:selectItem itemLabel="Selecione a quantidade de times" />
+							<f:selectItems value="#{ligaMB.quantidadeTimes}"></f:selectItems>
+						</p:selectOneMenu>
+					</p:panelGrid>
+					<p:messages autoUpdate="true" />
+					<p:commandButton ajax="false" value="Preencher nome dos times"
+						action="#{ligaMB.ativaFormTimes}" />
+				</h:form>
+			</p:panel>
+
+			<p:panel rendered="#{ligaMB.formTimes eq true}"
+				header="Nome dos times da liga #{ligaMB.liga.nome}">
+				<h:form id="formTimes">
+
+					<p:dataGrid columns="2" value="#{ligaMB.times}" var="time">
+						<h:outputText value="Nome do Time *" />
+						<p:inputText required="true"
+							requiredMessage="Favor, insira o nome do time."
+							value="#{time.nome}" placeholder="Insira o nome do time" />
+					</p:dataGrid>
+					<p:messages autoUpdate="true" />
+					<p:commandButton ajax="false" value="Criar"
+						action="#{ligaMB.criarLiga}" />
+				</h:form>
+			</p:panel>
+		</div>
+	</div>
+</h:body>
+</html>
